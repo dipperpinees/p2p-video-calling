@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/public/assets/styles.css" />
+        <link rel="stylesheet" href="/public/assets/video-grid.css" />
+        <link
+            href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro-v6@44659d9/css/all.min.css"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <link rel="icon" type="image/png" href="/public/assets/favicon.png" />
+        <title>P2P - VIDEO CALL</title>
+    </head>
+    <body>
+        <div class="join">
+            <form>
+                <input id="name" type="text" placeholder="Enter your name" required />
+                <button id="create-room" class="button-38" type="submit">
+                    <i class="fa-solid fa-circle-plus"></i>
+                    Submit
+                </button>
+            </form>
+        </div>
+        <div class="call" style="display: none">
+            <div class="Scenary"></div>
+            <div class="control">
+                <button class="enable-audio toggle-audio button-38" style="display: none">
+                    <i class="fa-solid fa-microphone"></i>
+                </button>
+                <button class="disable-audio toggle-audio button-38">
+                    <i class="fa-solid fa-microphone-slash"></i>
+                </button>
+                <button class="leave-room button-38">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    Leave
+                </button>
+                <button class="toggle-video enable-video button-38" style="display: none">
+                    <i class="fa-solid fa-camera"></i>
+                </button>
+                <button class="toggle-video disable-video button-38">
+                    <i class="fa-solid fa-camera-slash"></i>
+                </button>
+            </div>
+        </div>
+    </body>
+    <script src="/public/assets/video-grid.js"></script>
+    <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"></script>
+    <script>
+        const roomId = '<%=roomId %>';
+    </script>
+    <script src="/public/assets/media.js"></script>
+    <script src="/public/assets/call.js"></script>
+</html>

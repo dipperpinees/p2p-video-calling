@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/public/assets/styles.css" />
+        <link
+            href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro-v6@44659d9/css/all.min.css"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <link rel="icon" type="image/png" href="/public/assets/favicon.png" />
+        <title>P2P - VIDEO CALL</title>
+    </head>
+    <body>
+        <div class="home">
+            <h2>
+                <img src="/public/assets/favicon.png" />
+               P2P - VIDEO CALL
+            </h2>
+            <form>
+                <input id="room-id" type="text" placeholder="Enter room name" required />
+                <button id="create-room" class="button-38" type="submit">
+                    <i class="fa-solid fa-circle-plus"></i>
+                    Create Room
+                </button>
+            </form>
+        </div>
+    </body>
+    <script>
+        document.querySelector('#create-room').onclick = async (e) => {
+            const roomID = document.querySelector('#room-id').value;
+            if (!roomID) return;
+            e.preventDefault();
+            const response = await fetch(`/room/${roomID}`, { method: 'POST' });
+            const responseJSON = await response.json();
+            if (response.ok) {
+                window.location.href = `/room/${roomID}?k=${responseJSON.secretKey}`;
+            } else {
+                alert(responseJSON.message);
+            }
+        };
+    </script>
+</html>
