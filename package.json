@@ -4,7 +4,8 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "start": "cd build && node app.js",
+        "start": "cd src && ts-node app.ts",
+        "start:prod": "cd build && node app.js",
         "build": "tsc && cp -r ./src/public/ ./build/public/",
         "clean": "rimraf ./build",
         "dev": "cd src && nodemon app.ts"
