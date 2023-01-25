@@ -88,8 +88,9 @@ const handleCloseCall = (peerId) => {
 const onSuccess = (stream) => {
     const peer = new Peer();
     peer.on('open', function (peerId) {
+        const isHttps = location.protocol.includes("https");
         const ws = new WebSocket(
-            `ws://${location.host}/ws?roomId=${roomId}&peerId=${peerId}&name=${name}`
+            `${isHttps ? 'wss' : 'ws'}://${location.host}/ws?roomId=${roomId}&peerId=${peerId}&name=${name}`
         );
         room.set(peerId, new User({ peerId, name }));
         handleCallControl(stream, ws);
