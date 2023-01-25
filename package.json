@@ -4,8 +4,7 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "start": "cd src && ts-node app.ts",
-        "start:prod": "cd build && node app.js",
+        "start": "cd build && node app.js",
         "build": "tsc && cp -r ./src/public/ ./build/public/",
         "clean": "rimraf ./build",
         "dev": "cd src && nodemon app.ts"
@@ -16,6 +15,7 @@
         "@fastify/view": "^7.3.0",
         "@fastify/websocket": "^7.1.1",
         "crypto-random-string": "2.0.0",
+        "dotenv": "^16.0.3",
         "ejs": "^3.1.8",
         "fastify": "^4.11.0",
         "nodemon": "^2.0.20",
@@ -26,6 +26,7 @@
     },
     "devDependencies": {
         "@types/crypto-random-string": "2.0.0",
+        "@types/dotenv": "^8.2.0",
         "@types/ejs": "^3.1.1",
         "@types/node": "^18.11.18",
         "@types/ws": "^8.5.4",

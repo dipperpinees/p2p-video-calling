@@ -6,6 +6,9 @@ import { fastify } from 'fastify';
 import path from 'path';
 import routes from './routes';
 import handleWS from './utils/handle-ws';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 const server = fastify({ logger: true });
 (async () => {
@@ -30,7 +33,7 @@ const server = fastify({ logger: true });
         server.register(async function (fastify) {
             fastify.get('/ws', { websocket: true }, handleWS(server.log));
         })
-        server.listen({ port: 3001 });
+        server.listen({ port: Number(process.env.PORT) || 3001 });
     } catch (err) {
         server.log.error(err);
         process.exit(1);
