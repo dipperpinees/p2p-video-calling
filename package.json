@@ -5,8 +5,7 @@
     "license": "MIT",
     "scripts": {
         "start": "cd build && node app.js",
-        "build": "tsc && cp -r ./src/public/ ./build/public/",
-        "clean": "rimraf ./build",
+        "build": "rimraf ./build && tsc && cp -r ./src/public/ ./build/public/",
         "dev": "cd src && nodemon app.ts"
     },
     "dependencies": {
