@@ -6,7 +6,6 @@ export default function startCron() {
         Rooms.getInstance()
             .getRoomsData()
             .forEach((room, key) => {
-                console.log(key)
                 const isEmptyMember = room.getMember().length === 0;
                 const hasNotBeenUpdatedSinceFiveMinutesAgo =
                     new Date().getTime() - room.getUpdatedAt().getTime() >= 5 * 60 * 1000;
