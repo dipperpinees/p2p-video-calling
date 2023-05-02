@@ -182,8 +182,4 @@ const scenary = document.querySelector('.Scenary');
 
 const cameraGrid = new CameraGrid(scenary);
 
-// resize event of window
-window.addEventListener('resize', function () {
-    // resize event to dimension cameras
-    cameraGrid.resize();
-});
+window.addEventListener('resize', () => cameraGrid.resize());

@@ -25,6 +25,10 @@ const room = new Map();
  */
 let name;
 
+const chatDrawer = document.querySelector(".chat");
+
+let messageSound = new Audio('/public/assets/audio/message.mp3');
+
 navigator.getUserMedia =
     navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
@@ -94,6 +98,7 @@ const onSuccess = (stream) => {
         );
         room.set(peerId, new User({ peerId, name }));
         handleCallControl(stream, ws);
+        handleSendMessage(ws)
         ws.onmessage = ({ data }) => {
             const { type, message } = JSON.parse(data);
 
@@ -116,6 +121,18 @@ const onSuccess = (stream) => {
                     cameraGrid.toggleCameraIcon("camera-" + peerId, value);
                     break;
                 }
+                case "message": {
+                    const {peerId: guestPeerId, value} = message;
+                    if (peerId !== guestPeerId) {
+                        messageSound.play();
+                        createMessageSection(room.get(guestPeerId).name, value);
+                    };
+                    if (chatDrawer.style.display === "none") {
+                        document.querySelector(".toggle-chat span").style.display = "block";
+                    }
+                    break;
+                }
+                default: {}
             }
         };
 
@@ -178,3 +195,61 @@ document.querySelector('#create-room').onclick = async (e) => {
     document.querySelector(".call").style.display = "block";
     start();
 };
+
+[document.querySelector(".toggle-chat"), document.querySelector(".chat-heading-close")].forEach(el => el.onclick = () => {
+    if (chatDrawer.style.display === "flex") {
+        chatDrawer.style.display = "none";
+        scenary.style.right = "0px";
+    } else {
+        chatDrawer.style.display = "flex";
+        scenary.style.right = "320px";
+        document.querySelector(".toggle-chat span").style.display = "none";
+        chatDrawer.querySelector("form input").focus();
+        scrollChatSectionToBottom();
+    }
+    cameraGrid.resize();
+})
+
+const getTime = () => {
+    const d = new Date();
+    const hours = d.getHours();
+    const minutes = d.getMinutes();
+    return `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}`
+}
+
+const scrollChatSectionToBottom = () => {
+    const chatContentSectionEl = document.querySelector(".chat-content");
+    chatContentSectionEl.scrollTop = chatContentSectionEl.scrollHeight;
+}
+
+const createMessageSection = (name, message) => {
+    message.split(/\s+/).forEach(str => {
+        if (isURL(str)) {
+            message = message.replace(str, `<a target="_blank" rel="noopener noreferrer" href=${str}>${str}</a>`)
+        }
+    })
+    const messageSection = document.createElement("div");
+    messageSection.className = "chat-content-message";
+    messageSection.innerHTML =  `
+        <span><strong>${name}</strong> <span>${getTime()}</span></span>
+        <p>${message}</p>
+    `
+    document.querySelector(".chat-content").appendChild(messageSection);
+    scrollChatSectionToBottom();
+}
+
+const isURL = (str) => {
+    var urlRegex = '^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$';
+    var url = new RegExp(urlRegex, 'i');
+    return str.length < 2083 && url.test(str);
+}
+
+const handleSendMessage = (ws) => {
+    document.querySelector(".chat form").onsubmit = (e) => {
+        e.preventDefault();
+        const message = e.target.message.value?.trim();
+        createMessageSection("You", message);
+        e.target.message.value = "";
+        ws.send(JSON.stringify({type: "message", message}));
+    }
+}

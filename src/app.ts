@@ -5,14 +5,17 @@ import ejs from 'ejs';
 import { fastify } from 'fastify';
 import path from 'path';
 import routes from './routes';
-import handleWS from './utils/handle-ws';
+import handleWS from './utils/handleWebsocket';
 import * as dotenv from 'dotenv';
+import startCron from './utils/cron';
 
 dotenv.config();
 
 const server = fastify({ logger: true });
 (async () => {
     try {
+        startCron();
+
         //serve static
         await server.register(FastifyStatic, {
             root: path.join(__dirname, '/public'),

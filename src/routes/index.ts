@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyPluginOptions } from 'fastify';
-import roomRoutes from './room.routes';
+import roomRoutes from './room.router';
 
 export default (fastify: FastifyInstance, opts: FastifyPluginOptions, done: (err?: Error | undefined) => void) => {
     fastify.get('/', function (req, reply) {

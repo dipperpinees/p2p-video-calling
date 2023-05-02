@@ -1,6 +1,6 @@
 import { SocketStream } from '@fastify/websocket';
 import { FastifyBaseLogger, FastifyRequest } from 'fastify';
-import Message from './message';
+import WSMessage from './wsMessage';
 import Rooms from './rooms';
 import { User } from './user';
 import WsClients from './wsClients';
@@ -18,32 +18,36 @@ export default function handleWS(log: FastifyBaseLogger) {
         const beforeUpdateRoomData = [...(Rooms.getInstance().get(roomId)?.getMemberWithoutSocket() || [])];
         Rooms.getInstance().add(roomId, newUser);
 
-        connection.socket.send(JSON.stringify(new Message('join_room', beforeUpdateRoomData)));
+        connection.socket.send(JSON.stringify(new WSMessage('join_room', beforeUpdateRoomData)));
 
         connection.socket.on('message', (messageRaw) => {
-            const { type, message }: Message = JSON.parse(messageRaw.toString());
+            const { type, message }: WSMessage = JSON.parse(messageRaw.toString());
             switch (type) {
                 case 'microphone':
                     WsClients.getInstance().get(peerId)?.setMicrophone(Boolean(message));
                     Rooms.getInstance()
                         .get(roomId)
-                        ?.boardcast(new Message('microphone', { peerId, value: message }));
+                        ?.boardcast(new WSMessage('microphone', { peerId, value: message }));
                     break;
                 case 'camera':
                     WsClients.getInstance().get(peerId)?.setCamera(Boolean(message));
                     Rooms.getInstance()
                         .get(roomId)
-                        ?.boardcast(new Message('camera', { peerId, value: message }));
+                        ?.boardcast(new WSMessage('camera', { peerId, value: message }));
                     break;
+                case 'message':
+                    log.info({type: "message", msg: JSON.stringify({roomId, peerId ,message})})
+                    Rooms.getInstance().get(roomId)?.boardcast(new WSMessage('message', { peerId, value: message }))
+                default: { }
             }
         });
 
         connection.socket.on('close', () => {
             //remove client cache & delete from room
             try {
-                Rooms.getInstance().remove(roomId, peerId);
+                Rooms.getInstance().get(roomId)?.removeMember(peerId);
                 WsClients.getInstance().delete(peerId);
-                Rooms.getInstance().get(roomId)?.boardcast(new Message('disconnect', peerId));
+                Rooms.getInstance().get(roomId)?.boardcast(new WSMessage('disconnect', peerId));
             } catch (err) {
                 let message = 'Unknown Error';
                 if (err instanceof Error) message = err.message;

@@ -1,16 +1,20 @@
 import { User } from './user';
-import cryptoRandomString from 'crypto-random-string';
-import Message from './message';
+import { v4 as uuidv4 } from 'uuid';
+import WSMessage from './wsMessage';
 
 export class Room {
     private id: string;
     private member: User[];
     private secretKey: string;
+    private updatedAt: Date;
+    private createdAt: Date;
 
     constructor(id: string) {
         this.member = [];
-        this.secretKey = cryptoRandomString(8);
+        this.secretKey = uuidv4();
         this.id = id;
+        this.updatedAt = new Date();
+        this.createdAt = new Date();
     }
 
     public getId() {
@@ -30,16 +34,26 @@ export class Room {
     }
 
     public addMember(user: User) {
+        this.updatedAt = new Date();
         return this.member.push(user);
     }
 
     public removeMember(id: string) {
+        this.updatedAt = new Date();
         this.member = this.member.filter(({ peerId }) => peerId !== id);
         return this.member;
     }
 
-    async boardcast(message: Message) {
+    async boardcast(message: WSMessage) {
         const listClients = this.member;
         listClients?.forEach(client => client.socket.send(JSON.stringify(message)));
+    }
+
+    public getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public getUpdatedAt() {
+        return this.updatedAt;
     }
 }

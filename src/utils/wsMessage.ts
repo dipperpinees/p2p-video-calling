@@ -1,4 +1,4 @@
-export default class Message {
+export default class WSMessage {
     public type: string;
     public message: string | boolean;
 

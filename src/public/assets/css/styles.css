@@ -8,7 +8,7 @@
 }
 
 body {
-    background-color: #191B28;
+    background-color: #191b28;
     width: 100vw;
     height: 100vh;
 }
@@ -69,7 +69,7 @@ body {
 
 .home .button-38,
 .join .button-38 {
-    background-color: #0E79F9;
+    background-color: #0e79f9;
     color: white;
 }
 
@@ -110,10 +110,13 @@ body {
 .control {
     position: fixed;
     bottom: 8px;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
     gap: 8px;
+    left: 0px;
+    right: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .control button {
@@ -127,5 +130,118 @@ body {
 
 .control .leave-room {
     width: auto;
-    color: #F9605B;
+    color: #f9605b;
+}
+
+.chat {
+    position: fixed;
+    top: 16px;
+    bottom: 60px;
+    right: 16px;
+    width: 320px;
+    background: white;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.toggle-chat {
+    position: absolute;
+    right: 16px;
+}
+
+.toggle-chat span {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    font-size: 14px;
+    color: #009ef7;
+}
+
+.chat .chat-heading {
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat .chat-heading .chat-heading-close {
+    font-size: 20px;
+}
+
+.chat .chat-heading .chat-heading-close:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.chat .chat-content {
+    flex: 1;
+    overflow: auto;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.chat .chat-content-message p,
+span {
+    word-wrap: break-word;
+    font-size: 14px;
+}
+
+.chat .chat-content-message span strong {
+    margin-right: 4px;
+}
+
+.chat form {
+    display: flex;
+    padding: 12px 20px;
+    background: #f0ecec;
+    margin: 8px;
+    border-radius: 50px;
+}
+
+.chat form input {
+    display: flex;
+    height: 32px;
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+}
+
+.chat form button {
+    border: none;
+}
+
+.chat form button:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.chat form button i {
+    font-size: 20px;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #acabab;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #939393;
 }
