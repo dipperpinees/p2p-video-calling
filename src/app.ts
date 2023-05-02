@@ -36,7 +36,7 @@ const server = fastify({ logger: true });
         server.register(async function (fastify) {
             fastify.get('/ws', { websocket: true }, handleWS(server.log));
         })
-        server.listen({ port: Number(process.env.PORT) || 3001 });
+        server.listen({ port: Number(process.env.PORT) || 3001 , host: '0.0.0.0'});
     } catch (err) {
         server.log.error(err);
         process.exit(1);
