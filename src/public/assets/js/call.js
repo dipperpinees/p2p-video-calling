@@ -202,7 +202,9 @@ document.querySelector('#create-room').onclick = async (e) => {
         scenary.style.right = "0px";
     } else {
         chatDrawer.style.display = "flex";
-        scenary.style.right = "320px";
+        if (!/Android|iPhone/i.test(navigator.userAgent)) {
+            scenary.style.right = "320px";
+        }
         document.querySelector(".toggle-chat span").style.display = "none";
         chatDrawer.querySelector("form input").focus();
         scrollChatSectionToBottom();

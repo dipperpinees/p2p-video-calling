@@ -1,0 +1,19 @@
+@media only screen and (max-width: 600px) {
+    .home > h2 {
+        font-size: 28px;
+    }
+
+    .home > h2 img {
+        width: 24px;
+        height: 24px;
+    }
+
+    .join form,
+    .home form {
+        flex-direction: column;
+    }
+
+    .join input, .home input {
+        padding: 12px;
+    }
+}
