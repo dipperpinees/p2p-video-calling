@@ -4,7 +4,7 @@
     "main": "build/app.js",
     "license": "MIT",
     "scripts": {
-        "start": "node build/app.js",
+        "start": "cd build && node app.js",
         "build": "rimraf ./build && tsc && cp -r ./src/public/ ./build/public/",
         "dev": "cd src && nodemon app.ts",
         "lint": "eslint src/**/*.ts",
