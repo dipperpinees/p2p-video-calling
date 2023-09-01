@@ -16,6 +16,7 @@ export default function roomRoutes(
     done: (err?: Error | undefined) => void
 ) {
     fastify.post('/:id', (req: MyRequest, reply: FastifyReply) => {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         reply.send(Rooms.getInstance().new(req.params.id));
     });
 
@@ -25,6 +26,7 @@ export default function roomRoutes(
         if (!thisRoom || thisRoom.getSecretKey() !== secretKey) {
             return reply.redirect('/');
         }
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         reply.view('call', { roomId: req.params.id });
     });
 

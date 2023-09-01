@@ -30,7 +30,8 @@ export class Room {
     }
 
     public getMemberWithoutSocket() {
-        return this.member.map(({socket, ...rest}) => rest);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        return this.member.map(({ socket, ...rest }) => rest);
     }
 
     public addMember(user: User) {
@@ -44,9 +45,9 @@ export class Room {
         return this.member;
     }
 
-    async boardcast(message: WSMessage) {
+    boardcast(message: WSMessage) {
         const listClients = this.member;
-        listClients?.forEach(client => client.socket.send(JSON.stringify(message)));
+        listClients?.forEach((client) => client.socket.send(JSON.stringify(message)));
     }
 
     public getCreatedAt() {

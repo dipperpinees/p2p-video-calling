@@ -13,7 +13,8 @@
         flex-direction: column;
     }
 
-    .join input, .home input {
+    .join input,
+    .home input {
         padding: 12px;
     }
 }

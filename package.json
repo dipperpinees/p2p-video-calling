@@ -1,12 +1,15 @@
 {
     "name": "p2p-video-call",
     "version": "1.0.0",
-    "main": "index.js",
+    "main": "build/app.js",
     "license": "MIT",
     "scripts": {
-        "start": "cd build && node app.js",
+        "start": "node build/app.js",
         "build": "rimraf ./build && tsc && cp -r ./src/public/ ./build/public/",
-        "dev": "cd src && nodemon app.ts"
+        "dev": "cd src && nodemon app.ts",
+        "lint": "eslint src/**/*.ts",
+        "format": "prettier '**/*.{js,ts,mjs,cjs,json,css,scss}' --write",
+        "lint:fix": "eslint src/**/*.ts --fix"
     },
     "dependencies": {
         "@fastify/express": "^2.3.0",
@@ -31,6 +34,10 @@
         "@types/ejs": "^3.1.1",
         "@types/node": "^18.11.18",
         "@types/ws": "^8.5.4",
+        "@typescript-eslint/eslint-plugin": "^6.5.0",
+        "@typescript-eslint/parser": "^6.5.0",
+        "eslint": "^8.48.0",
+        "prettier": "^3.0.3",
         "rimraf": "^4.1.1"
     }
 }

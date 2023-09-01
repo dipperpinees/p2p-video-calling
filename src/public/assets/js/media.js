@@ -2,7 +2,7 @@
  * @param {Object} stream
  * @param {Boolean} status
  */
- function toggleVideoStream(stream, status) {
+function toggleVideoStream(stream, status) {
     stream.getTracks().forEach(function (track) {
         if (track.readyState == 'live' && track.kind === 'video') {
             track.enabled = status;

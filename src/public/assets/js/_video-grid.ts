@@ -133,7 +133,9 @@ export default class CameraGrid {
     }
 
     toggleMicrophoneIcon(id: string, status: boolean) {
-        const microphoneIcon = document.querySelector<HTMLElement>(`#${id} > section .fa-microphone-slash`);
+        const microphoneIcon = document.querySelector<HTMLElement>(
+            `#${id} > section .fa-microphone-slash`
+        );
         if (!microphoneIcon) return;
         if (status) {
             microphoneIcon.style.display = 'none';

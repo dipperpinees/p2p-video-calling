@@ -146,14 +146,13 @@ class CameraGrid {
         return statusBar;
     }
 
-
     toggleMicrophoneIcon(id, status) {
         const microphoneIcon = document.querySelector(`#${id} > section .fa-microphone-slash`);
         if (!microphoneIcon) return;
         if (status) {
-            microphoneIcon.style.display = "none";
+            microphoneIcon.style.display = 'none';
         } else {
-            microphoneIcon.style.display = "flex";
+            microphoneIcon.style.display = 'flex';
         }
     }
 
@@ -161,9 +160,9 @@ class CameraGrid {
         const cameraIcon = document.querySelector(`#${id} > section .fa-camera-slash`);
         if (!cameraIcon) return;
         if (status) {
-            cameraIcon.style.display = "none";
+            cameraIcon.style.display = 'none';
         } else {
-            cameraIcon.style.display = "flex";
+            cameraIcon.style.display = 'flex';
         }
     }
 
