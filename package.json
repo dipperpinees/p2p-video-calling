@@ -4,9 +4,9 @@
     "main": "build/app.js",
     "license": "MIT",
     "scripts": {
-        "start": "cd build && node app.js",
-        "build": "rimraf ./build && tsc && cp -r ./src/public/ ./build/public/",
-        "dev": "cd src && nodemon app.ts",
+        "start": "node build/app.js",
+        "build": "rimraf ./build && tsc",
+        "dev": "nodemon src/app.ts",
         "lint": "eslint src/**/*.ts",
         "format": "prettier '**/*.{js,ts,mjs,cjs,json,css,scss}' --write",
         "lint:fix": "eslint src/**/*.ts --fix"

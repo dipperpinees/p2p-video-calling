@@ -18,8 +18,7 @@ const server = fastify({ logger: true });
 
         //serve static
         await server.register(FastifyStatic, {
-            root: path.join(__dirname, '/public'),
-            prefix: '/public/', // optional: default '/'
+            root: path.resolve('./public'),
         });
 
         server.register(FastifyView, {

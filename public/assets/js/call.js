@@ -27,7 +27,7 @@ let name;
 
 const chatDrawer = document.querySelector('.chat');
 
-let messageSound = new Audio('/public/assets/audio/message.mp3');
+let messageSound = new Audio('/assets/audio/message.mp3');
 
 navigator.getUserMedia =
     navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;

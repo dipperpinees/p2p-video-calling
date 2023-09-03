@@ -260,3 +260,8 @@ span {
 ::-webkit-scrollbar-thumb:hover {
     background: #939393;
 }
+
+.disable-video img {
+    width: 20px;
+    height: 20px;
+}

@@ -24,6 +24,5 @@
             "*": ["node_modules/*"]
         }
     },
-    "include": ["src/**/*"],
-    "exclude": ["src/public/assets/*"]
+    "include": ["src/**/*"]
 }
