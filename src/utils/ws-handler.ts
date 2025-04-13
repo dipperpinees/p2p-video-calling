@@ -1,9 +1,9 @@
 import { SocketStream } from '@fastify/websocket';
 import { FastifyBaseLogger, FastifyRequest } from 'fastify';
-import WSMessage from './wsMessage';
+import WsMessage from './ws-message';
 import Rooms from './rooms';
 import { User } from './user';
-import WsClients from './wsClients';
+import WsClient from './ws-client';
 
 type MyRequest = FastifyRequest<{
     Querystring: { roomId: string; peerId: string; name: string };
@@ -14,35 +14,35 @@ export default function handleWS(log: FastifyBaseLogger) {
         const { peerId, roomId, name } = request.query;
         //add to client cache & room
         const newUser = new User(peerId, name, connection.socket);
-        WsClients.getInstance().add(peerId, newUser);
+        WsClient.getInstance().add(peerId, newUser);
         const beforeUpdateRoomData = [
             ...(Rooms.getInstance().get(roomId)?.getMemberWithoutSocket() || []),
         ];
         Rooms.getInstance().add(roomId, newUser);
 
-        connection.socket.send(JSON.stringify(new WSMessage('join_room', beforeUpdateRoomData)));
+        connection.socket.send(JSON.stringify(new WsMessage('join_room', beforeUpdateRoomData)));
 
         connection.socket.on('message', (messageRaw) => {
             // eslint-disable-next-line @typescript-eslint/no-base-to-string
-            const { type, message } = JSON.parse(messageRaw.toString()) as WSMessage;
+            const { type, message } = JSON.parse(messageRaw.toString()) as WsMessage;
             switch (type) {
                 case 'microphone':
-                    WsClients.getInstance().get(peerId)?.setMicrophone(Boolean(message));
+                    WsClient.getInstance().get(peerId)?.setMicrophone(Boolean(message));
                     Rooms.getInstance()
                         .get(roomId)
-                        ?.boardcast(new WSMessage('microphone', { peerId, value: message }));
+                        ?.boardcast(new WsMessage('microphone', { peerId, value: message }));
                     break;
                 case 'camera':
-                    WsClients.getInstance().get(peerId)?.setCamera(Boolean(message));
+                    WsClient.getInstance().get(peerId)?.setCamera(Boolean(message));
                     Rooms.getInstance()
                         .get(roomId)
-                        ?.boardcast(new WSMessage('camera', { peerId, value: message }));
+                        ?.boardcast(new WsMessage('camera', { peerId, value: message }));
                     break;
                 case 'message':
                     log.info({ type: 'message', msg: JSON.stringify({ roomId, peerId, message }) });
                     Rooms.getInstance()
                         .get(roomId)
-                        ?.boardcast(new WSMessage('message', { peerId, value: message }));
+                        ?.boardcast(new WsMessage('message', { peerId, value: message }));
                     break;
                 default: return;
             }
@@ -52,8 +52,8 @@ export default function handleWS(log: FastifyBaseLogger) {
             //remove client cache & delete from room
             try {
                 Rooms.getInstance().get(roomId)?.removeMember(peerId);
-                WsClients.getInstance().delete(peerId);
-                Rooms.getInstance().get(roomId)?.boardcast(new WSMessage('disconnect', peerId));
+                WsClient.getInstance().delete(peerId);
+                Rooms.getInstance().get(roomId)?.boardcast(new WsMessage('disconnect', peerId));
             } catch (err) {
                 let message = 'Unknown Error';
                 if (err instanceof Error) message = err.message;

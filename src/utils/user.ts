@@ -14,6 +14,7 @@ export class User {
         this.openMicrophone = true;
         this.socket = socket;
     }
+
     setCamera(openCamera: boolean) {
         this.openCamera = openCamera;
     }

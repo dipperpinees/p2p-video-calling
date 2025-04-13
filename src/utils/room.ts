@@ -1,6 +1,6 @@
 import { User } from './user';
 import { v4 as uuidv4 } from 'uuid';
-import WSMessage from './wsMessage';
+import WsMessage from './ws-message';
 
 export class Room {
     private id: string;
@@ -45,7 +45,7 @@ export class Room {
         return this.member;
     }
 
-    boardcast(message: WSMessage) {
+    boardcast(message: WsMessage) {
         const listClients = this.member;
         listClients?.forEach((client) => client.socket.send(JSON.stringify(message)));
     }

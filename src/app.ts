@@ -5,7 +5,7 @@ import ejs from 'ejs';
 import { fastify } from 'fastify';
 import path from 'path';
 import routes from './routes';
-import handleWS from './utils/handleWebsocket';
+import handleWS from './utils/ws-handler';
 import * as dotenv from 'dotenv';
 import startCron from './utils/cron';
 

@@ -1,7 +1,7 @@
 import { User } from './user';
 
-export default class WsClients {
-    private static instance: WsClients;
+export default class WsClient {
+    private static instance: WsClient;
     private data: Map<string, User>;
     private constructor() {
         this.data = new Map<string, User>();
@@ -22,7 +22,7 @@ export default class WsClients {
 
     public static getInstance() {
         if (!this.instance) {
-            this.instance = new WsClients();
+            this.instance = new WsClient();
         }
         return this.instance;
     }
